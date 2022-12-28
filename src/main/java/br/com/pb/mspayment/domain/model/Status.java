@@ -2,7 +2,6 @@ package br.com.pb.mspayment.domain.model;
 
 public enum Status {
 
-    CRIADO,
-    CONFIRMADO,
-    CANCELADO
+    PAYMENT_CONFIRMED,
+    PAYMENT_CANCELED
 }

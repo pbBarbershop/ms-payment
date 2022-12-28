@@ -5,16 +5,19 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 public class PaymentDTO {
-    private Long id;
+
     private BigDecimal value;
-    private String name;
-    private String expiration;
-    private String code;
+
+    private String customerName;
+
+    private String paymentType;
+
+    private LocalDateTime dateTime;
+
     private Status status;
-    private Long paymentFormId;
-    //private Long agendamentoId;
 }
