@@ -14,6 +14,8 @@ public interface PaymentUseCase {
     PageableDTO findAll(Status status, Pageable pageable);
 
     PaymentDTO findById(Long id);
+
+    PaymentDTO update(PaymentDTO paymentDTO, Long id);
 }
 
 

@@ -44,4 +44,5 @@ public class Payment {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Status status;
+
 }

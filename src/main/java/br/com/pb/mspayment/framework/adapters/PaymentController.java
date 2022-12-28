@@ -4,9 +4,12 @@ import br.com.pb.mspayment.application.in.PaymentUseCase;
 import br.com.pb.mspayment.domain.dto.PageableDTO;
 import br.com.pb.mspayment.domain.dto.PaymentDTO;
 import br.com.pb.mspayment.domain.model.Status;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +28,10 @@ public class PaymentController {
     @GetMapping("/{id}")
     public ResponseEntity<PaymentDTO> findById(@PathVariable @NotNull Long id) {
         return ResponseEntity.ok(service.findById(id));
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<PaymentDTO> update(@RequestBody @Valid PaymentDTO paymentDTO, @PathVariable @NotNull Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(service.update(paymentDTO, id));
     }
 }
 

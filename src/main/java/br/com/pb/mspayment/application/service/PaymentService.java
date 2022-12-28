@@ -6,6 +6,7 @@ import br.com.pb.mspayment.domain.dto.PageableDTO;
 import br.com.pb.mspayment.domain.dto.PaymentDTO;
 import br.com.pb.mspayment.domain.model.Payment;
 import br.com.pb.mspayment.domain.model.Status;
+import br.com.pb.mspayment.framework.exception.DataIntegrityValidationException;
 import br.com.pb.mspayment.framework.exception.IdNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -35,6 +36,17 @@ public class PaymentService implements PaymentUseCase {
     public PaymentDTO findById(Long id) {
         Payment payment = repository.findById(id)
                 .orElseThrow(() -> new IdNotFoundException(id));
+        return modelMapper.map(payment, PaymentDTO.class);
+    }
+
+    @Override
+    public PaymentDTO update(PaymentDTO paymentDTO, Long id) {
+        Payment payment = modelMapper.map(findById(id), Payment.class);
+        payment.setCustomerName(paymentDTO.getCustomerName());
+        payment.setValue(paymentDTO.getValue());
+        payment.setPaymentDateTime(paymentDTO.getPaymentDateTime());
+        payment.setPaymentType(paymentDTO.getPaymentType());
+        repository.save(payment);
         return modelMapper.map(payment, PaymentDTO.class);
     }
 

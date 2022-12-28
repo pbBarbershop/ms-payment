@@ -17,7 +17,8 @@ public class PaymentDTO {
 
     private String paymentType;
 
-    private LocalDateTime dateTime;
+    private LocalDateTime paymentDateTime;
 
     private Status status;
+
 }
