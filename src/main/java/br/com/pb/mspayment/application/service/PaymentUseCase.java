@@ -49,7 +49,11 @@ public class PaymentUseCase implements PaymentService {
         return modelMapper.map(payment, PaymentDTO.class);
     }
 
+    private void checkIfIdExists(Long id) {
+        repository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
+    }
     public void deletePayment(Long id) {
+        checkIfIdExists(id);
         repository.deleteById(id);
     }
 
