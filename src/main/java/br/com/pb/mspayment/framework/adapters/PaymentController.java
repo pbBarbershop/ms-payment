@@ -9,7 +9,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +32,13 @@ public class PaymentController {
     public ResponseEntity<PaymentDTO> update(@RequestBody @Valid PaymentDTO paymentDTO, @PathVariable @NotNull Long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.update(paymentDTO, id));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<PaymentDTO> delete(@PathVariable @NotNull Long id) {
+        service.deletePayment(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 }
 
 

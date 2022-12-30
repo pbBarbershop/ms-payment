@@ -16,6 +16,8 @@ public interface PaymentUseCase {
     PaymentDTO findById(Long id);
 
     PaymentDTO update(PaymentDTO paymentDTO, Long id);
+
+    void deletePayment(Long id);
 }
 
 

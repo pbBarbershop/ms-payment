@@ -57,4 +57,14 @@ public class PaymentService implements PaymentUseCase {
         return modelMapper.map(payment, PaymentDTO.class);
     }
 
+    @Override
+    public void deletePayment(Long id) {
+        checkIfIdExists(id);
+        repository.deleteById(id);
+    }
+
+    private void checkIfIdExists(Long id) {
+        repository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
+    }
+
 }
