@@ -10,6 +10,7 @@ spring:
     url: jdbc:mysql://localhost:3306/ms_payment?createDatabaseIfNotExist=true&serverTimezone=UTC
     username: root
     password: 99168844Jo#
+
   jpa:
     hibernate:
       ddl-auto: update

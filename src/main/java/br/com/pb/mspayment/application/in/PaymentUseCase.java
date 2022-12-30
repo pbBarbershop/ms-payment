@@ -1,6 +1,4 @@
 package br.com.pb.mspayment.application.in;
-
-
 import br.com.pb.mspayment.domain.dto.PageableDTO;
 import br.com.pb.mspayment.domain.dto.PaymentDTO;
 import br.com.pb.mspayment.domain.model.Status;
@@ -11,6 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 
 public interface PaymentUseCase {
+
     PageableDTO findAll(Status status, Pageable pageable);
 
     PaymentDTO findById(Long id);
@@ -18,6 +17,8 @@ public interface PaymentUseCase {
     PaymentDTO update(PaymentDTO paymentDTO, Long id);
 
     void deletePayment(Long id);
+
+    PaymentDTO createPayment(PaymentDTO dto);
 }
 
 

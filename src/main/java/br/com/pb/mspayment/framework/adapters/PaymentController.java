@@ -1,5 +1,4 @@
 package br.com.pb.mspayment.framework.adapters;
-
 import br.com.pb.mspayment.application.in.PaymentUseCase;
 import br.com.pb.mspayment.domain.dto.PageableDTO;
 import br.com.pb.mspayment.domain.dto.PaymentDTO;

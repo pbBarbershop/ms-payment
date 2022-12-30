@@ -1,5 +1,4 @@
 package br.com.pb.mspayment.application.service;
-
 import br.com.pb.mspayment.application.in.PaymentUseCase;
 import br.com.pb.mspayment.application.out.PaymentRepository;
 import br.com.pb.mspayment.domain.dto.PageableDTO;
@@ -13,10 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class PaymentService implements PaymentUseCase {
@@ -62,9 +59,21 @@ public class PaymentService implements PaymentUseCase {
         checkIfIdExists(id);
         repository.deleteById(id);
     }
+    @Override
+    public PaymentDTO createPayment(PaymentDTO dto) {
+        if(LocalDateTime.now().isAfter(dto.getPaymentDateTime()))
+            throw new DataIntegrityValidationException("Invalid date! retroative date is not allowed");
+
+        Payment payment = modelMapper.map(dto, Payment.class);
+        payment.setStatus(Status.PAYMENT_CREATED);
+        repository.save(payment);
+
+        return modelMapper.map(payment, PaymentDTO.class);
+    }
 
     private void checkIfIdExists(Long id) {
         repository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
     }
 
 }
+
