@@ -1,21 +1,23 @@
 package br.com.pb.mspayment.application.service;
 
-import br.com.pb.mspayment.application.in.PaymentService;
+import br.com.pb.mspayment.application.in.PaymentUseCase;
 import br.com.pb.mspayment.application.out.PaymentRepository;
 import br.com.pb.mspayment.domain.dto.PaymentDTO;
 import br.com.pb.mspayment.domain.model.Payment;
 import br.com.pb.mspayment.domain.model.Status;
+import br.com.pb.mspayment.framework.exception.DataIntegrityValidationException;
 import br.com.pb.mspayment.framework.exception.IdNotFoundException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
-public class PaymentUseCase implements PaymentService {
+public class PaymentService implements PaymentUseCase {
 
     private final PaymentRepository repository;
     private final ModelMapper modelMapper;
@@ -35,6 +37,8 @@ public class PaymentUseCase implements PaymentService {
     }
 
     public PaymentDTO createPayment(PaymentDTO dto) {
+        if(LocalDateTime.now().isAfter(dto.getPaymentDateTime()))
+            throw new DataIntegrityValidationException("Invalid date! retroative date is not allowed");
         Payment payment = modelMapper.map(dto, Payment.class);
         payment.setStatus(Status.CRIADO);
         repository.save(payment);

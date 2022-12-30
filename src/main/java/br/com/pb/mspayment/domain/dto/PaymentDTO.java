@@ -16,5 +16,5 @@ public class PaymentDTO {
     private String code;
     private Status status;
     private Long paymentFormId;
-    //private Long agendamentoId;
+
 }

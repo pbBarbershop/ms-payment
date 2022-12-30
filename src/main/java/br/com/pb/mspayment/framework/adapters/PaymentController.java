@@ -1,6 +1,6 @@
 package br.com.pb.mspayment.framework.adapters;
 
-import br.com.pb.mspayment.application.in.PaymentService;
+import br.com.pb.mspayment.application.in.PaymentUseCase;
 import br.com.pb.mspayment.domain.dto.PaymentDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -19,7 +19,7 @@ import java.net.URI;
 @RequestMapping("/payment")
 public class PaymentController {
 
-    private final PaymentService service;
+    private final PaymentUseCase service;
 
     @GetMapping
     public Page<PaymentDTO> list(@PageableDefault(size = 10) Pageable paginacao) {

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 
-public interface PaymentService {
+public interface PaymentUseCase {
     PaymentDTO getById(Long id);
 
     PaymentDTO createPayment(PaymentDTO dto);
