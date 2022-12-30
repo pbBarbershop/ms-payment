@@ -1,14 +1,16 @@
 package br.com.pb.mspayment.domain.dto;
 
 import br.com.pb.mspayment.domain.model.Status;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PaymentDTO {
 
     private BigDecimal value;

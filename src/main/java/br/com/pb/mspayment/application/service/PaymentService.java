@@ -41,11 +41,13 @@ public class PaymentService implements PaymentUseCase {
 
     @Override
     public PaymentDTO update(PaymentDTO paymentDTO, Long id) {
-        Payment payment = modelMapper.map(findById(id), Payment.class);
+        Payment payment = repository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
+
         payment.setCustomerName(paymentDTO.getCustomerName());
         payment.setValue(paymentDTO.getValue());
         payment.setPaymentDateTime(paymentDTO.getPaymentDateTime());
         payment.setPaymentType(paymentDTO.getPaymentType());
+
         repository.save(payment);
         return modelMapper.map(payment, PaymentDTO.class);
     }
