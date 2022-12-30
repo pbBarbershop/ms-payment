@@ -33,6 +33,12 @@ public class PaymentController {
     public ResponseEntity<PaymentDTO> update(@RequestBody @Valid PaymentDTO paymentDTO, @PathVariable @NotNull Long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.update(paymentDTO, id));
     }
+
+    @PutMapping("/{id}/confirm")
+    public ResponseEntity confirmPayment(@PathVariable @NotNull Long id){
+        service.confirmPayment(id);
+        return ResponseEntity.ok().build();
+    }
 }
 
 

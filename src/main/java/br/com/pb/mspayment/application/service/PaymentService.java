@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -55,6 +56,18 @@ public class PaymentService implements PaymentUseCase {
 
         repository.save(payment);
         return modelMapper.map(payment, PaymentDTO.class);
+    }
+
+    @Override
+    public void confirmPayment(Long id) {
+        Optional<Payment> payment = repository.findById(id);
+
+        if(!payment.isPresent()){
+            throw new IdNotFoundException(id);
+        }
+        payment.get().setStatus(Status.PAYMENT_CONFIRMED);
+        repository.save(payment.get());
+
     }
 
 }
