@@ -4,15 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
-public class StandardError {
+public class MessageExceptionHandler {
 
-    private LocalDateTime timestamp;
+    private Date timestamp;
     private Integer status;
-    private String error;
-    private String path;
+    private String message;
 }

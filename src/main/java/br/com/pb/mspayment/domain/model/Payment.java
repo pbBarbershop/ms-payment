@@ -1,48 +1,44 @@
 package br.com.pb.mspayment.domain.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "pagamentos")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Payment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
-    @Positive
-    @Column(name = "valor")
+
+    @NotNull(message = "invalid field")
+    @Positive(message = "value must be positive")
     private BigDecimal value;
-    @NotBlank
-    @Size(max=100)
-    @Column(name = "nome")
-    private String name;
-    @NotBlank
-    @Size(max=7)
-    @Column(name = "expiração")
-    private String expiration;
-    @NotBlank
-    @Size(min=3, max=3)
-    @Column(name = "código")
-    private String code;
+
+    @NotBlank(message = "invalid field")
+    @Pattern(regexp = "^([a-zA-ZãÃéÉíÍóÓêÊôÔáÁ\\s])+$", message = "field must contain letters only")
+    private String customerName;
+
+    @NotBlank(message = "invalid field")
+    private String paymentType;
+
+    @Column(insertable = false, updatable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    private LocalDateTime paymentDateTime;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private Status status;
-    @NotNull
-    @Column(name = "Forma de pagamento")
-    private Long paymentFormId;
-
 }
