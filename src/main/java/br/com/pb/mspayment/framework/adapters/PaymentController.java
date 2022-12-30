@@ -38,6 +38,11 @@ public class PaymentController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @PutMapping("/{id}/confirm")
+    public ResponseEntity confirmPayment(@PathVariable @NotNull Long id){
+        service.confirmPayment(id);
+        return ResponseEntity.ok().build();
+    }
 }
 
 

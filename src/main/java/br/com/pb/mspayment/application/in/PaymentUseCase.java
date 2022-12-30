@@ -19,6 +19,8 @@ public interface PaymentUseCase {
     void deletePayment(Long id);
 
     PaymentDTO createPayment(PaymentDTO dto);
+
+    void confirmPayment(Long id);
 }
 
 
