@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -41,7 +42,11 @@ public class PaymentService implements PaymentUseCase {
 
     @Override
     public PaymentDTO update(PaymentDTO paymentDTO, Long id) {
+
         Payment payment = repository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
+
+        if(LocalDateTime.now().isAfter(paymentDTO.getPaymentDateTime()))
+            throw new DataIntegrityValidationException("Invalid date! retroative date is not allowed");
 
         payment.setCustomerName(paymentDTO.getCustomerName());
         payment.setValue(paymentDTO.getValue());

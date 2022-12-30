@@ -35,7 +35,6 @@ public class PaymentControllerTest {
     private final ObjectMapper objectMapper;
 
     private static final String ID_URL = "/payment/1";
-
     private Payment payment;
     @MockBean
     private PaymentService paymentService;
@@ -43,11 +42,11 @@ public class PaymentControllerTest {
     public void updateTestShouldSucess() throws Exception {
         PaymentDTO paymentDTO = getPaymentDTO();
         when(paymentService.update(any(), any())).thenReturn(paymentDTO);
-        String input = objectMapper.writeValueAsString(paymentDTO);
+        String json = objectMapper.writeValueAsString(paymentDTO);
         MvcResult result = mockMvc
                 .perform(MockMvcRequestBuilders.put(ID_URL)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(input)
+                        .content(json)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
         MockHttpServletResponse response = result.getResponse();
