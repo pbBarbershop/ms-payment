@@ -34,7 +34,7 @@ public class PaymentService implements PaymentUseCase {
 
     public PaymentDTO findById(Long id) {
         Payment payment = repository.findById(id)
-                .orElseThrow(() -> new IdNotFoundException(id));
+                .orElseThrow(() -> new IdNotFoundException());
         return modelMapper.map(payment, PaymentDTO.class);
     }
 

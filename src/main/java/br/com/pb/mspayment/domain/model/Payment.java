@@ -26,15 +26,15 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "invalid field")
+    @NotNull(message = "Invalid field")
     @Positive(message = "value must be positive")
     private BigDecimal value;
 
-    @NotBlank(message = "invalid field")
-    @Pattern(regexp = "^([a-zA-ZãÃéÉíÍóÓêÊôÔáÁ\\s])+$", message = "field must contain letters only")
+    @NotBlank(message = "Invalid field")
+    @Pattern(regexp = "^([a-zA-ZãÃéÉíÍóÓêÊôÔáÁ\\s])+$", message = "Field must contain letters only")
     private String customerName;
 
-    @NotBlank(message = "invalid field")
+    @NotBlank(message = "Invalid field")
     private String paymentType;
 
     @Column(insertable = false, updatable = false,

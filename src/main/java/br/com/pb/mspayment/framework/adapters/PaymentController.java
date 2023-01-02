@@ -4,7 +4,6 @@ import br.com.pb.mspayment.application.in.PaymentUseCase;
 import br.com.pb.mspayment.domain.dto.PageableDTO;
 import br.com.pb.mspayment.domain.dto.PaymentDTO;
 import br.com.pb.mspayment.domain.model.Status;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,7 @@ public class PaymentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PaymentDTO> findById(@PathVariable @NotNull Long id) {
+    public ResponseEntity<PaymentDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(service.findById(id));
     }
 }
