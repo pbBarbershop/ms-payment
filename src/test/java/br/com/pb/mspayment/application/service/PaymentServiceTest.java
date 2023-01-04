@@ -2,6 +2,7 @@ package br.com.pb.mspayment.application.service;
 
 import br.com.pb.mspayment.application.out.PaymentRepository;
 import br.com.pb.mspayment.domain.dto.PaymentDTO;
+import br.com.pb.mspayment.domain.dto.PaymentResponse;
 import br.com.pb.mspayment.domain.model.Payment;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,7 +37,7 @@ public class PaymentServiceTest {
         Mockito.when(repository.findById(any())).thenReturn(Optional.of(payment));
         Mockito.when(repository.save(any())).thenReturn(payment);
 
-        PaymentDTO response = service.update(paymentDTO, ID);
+        PaymentResponse response = service.update(paymentDTO, ID);
         assertEquals(payment.getCustomerName(), response.getCustomerName());
         assertEquals(payment.getValue(),payment.getValue());
         verify(repository).save(any());

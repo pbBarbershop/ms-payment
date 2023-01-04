@@ -2,6 +2,7 @@ package br.com.pb.mspayment.framework.adapters;
 
 import br.com.pb.mspayment.application.service.PaymentService;
 import br.com.pb.mspayment.domain.dto.PaymentDTO;
+import br.com.pb.mspayment.domain.dto.PaymentResponse;
 import br.com.pb.mspayment.domain.model.Payment;
 import br.com.pb.mspayment.domain.model.Status;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,7 +42,8 @@ public class PaymentControllerTest {
     @Test
     public void updateTestShouldSucess() throws Exception {
         PaymentDTO paymentDTO = getPaymentDTO();
-        when(paymentService.update(any(), any())).thenReturn(paymentDTO);
+        PaymentResponse paymentResponse = new PaymentResponse();
+        when(paymentService.update(any(), any())).thenReturn(paymentResponse);
         String json = objectMapper.writeValueAsString(paymentDTO);
         MvcResult result = mockMvc
                 .perform(MockMvcRequestBuilders.put(ID_URL)
@@ -57,8 +59,6 @@ public class PaymentControllerTest {
         return PaymentDTO.builder().customerName("João")
                 .paymentType("Cartão de Crédito")
                 .value(new BigDecimal("1500"))
-                .paymentDateTime(LocalDateTime.now())
-                .status(Status.PAYMENT_CONFIRMED)
                 .build();
     }
 

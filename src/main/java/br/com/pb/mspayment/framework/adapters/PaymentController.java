@@ -2,6 +2,7 @@ package br.com.pb.mspayment.framework.adapters;
 import br.com.pb.mspayment.application.in.PaymentUseCase;
 import br.com.pb.mspayment.domain.dto.PageableDTO;
 import br.com.pb.mspayment.domain.dto.PaymentDTO;
+import br.com.pb.mspayment.domain.dto.PaymentResponse;
 import br.com.pb.mspayment.domain.model.Status;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -24,11 +25,11 @@ public class PaymentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PaymentDTO> findById(@PathVariable @NotNull Long id) {
+    public ResponseEntity<PaymentResponse> findById(@PathVariable @NotNull Long id) {
         return ResponseEntity.ok(service.findById(id));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<PaymentDTO> update(@RequestBody @Valid PaymentDTO paymentDTO, @PathVariable @NotNull Long id){
+    public ResponseEntity<PaymentResponse> update(@RequestBody @Valid PaymentDTO paymentDTO, @PathVariable @NotNull Long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.update(paymentDTO, id));
     }
 
@@ -44,8 +45,14 @@ public class PaymentController {
         return ResponseEntity.ok().build();
     }
     @PostMapping
-    public ResponseEntity<PaymentDTO> createPayment(@RequestBody @Valid PaymentDTO paymentDTO){
+    public ResponseEntity<PaymentResponse> createPayment(@RequestBody @Valid PaymentDTO paymentDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.createPayment(paymentDTO));
+    }
+
+    @PutMapping("/{id}/cancel")
+    public ResponseEntity cancelPayment(@PathVariable @NotNull Long id){
+        service.cancelPayment(id);
+        return ResponseEntity.ok().build();
     }
 }
 

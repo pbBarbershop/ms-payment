@@ -25,9 +25,5 @@ public class PaymentDTO {
     private String customerName;
     @NotBlank(message = "invalid field")
     private String paymentType;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
-    private LocalDateTime paymentDateTime;
-
-    private Status status;
 
 }

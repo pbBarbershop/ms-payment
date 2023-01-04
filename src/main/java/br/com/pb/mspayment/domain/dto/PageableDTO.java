@@ -16,5 +16,5 @@ public class PageableDTO {
     private Integer numberOfElements;
     private Long totalElements;
     private Integer totalPages;
-    private List<PaymentDTO> paymentsList;
+    private List<PaymentResponse> paymentsList;
 }

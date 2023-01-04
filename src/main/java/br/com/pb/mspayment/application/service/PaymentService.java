@@ -4,6 +4,7 @@ import br.com.pb.mspayment.application.in.PaymentUseCase;
 import br.com.pb.mspayment.application.out.PaymentRepository;
 import br.com.pb.mspayment.domain.dto.PageableDTO;
 import br.com.pb.mspayment.domain.dto.PaymentDTO;
+import br.com.pb.mspayment.domain.dto.PaymentResponse;
 import br.com.pb.mspayment.domain.model.Payment;
 import br.com.pb.mspayment.domain.model.Status;
 import br.com.pb.mspayment.framework.exception.DataIntegrityValidationException;
@@ -30,34 +31,31 @@ public class PaymentService implements PaymentUseCase {
         Page page = status == null ?
                 repository.findAll(pageable) : repository.findByStatus(status, pageable);
 
-        List<PaymentDTO> payments = page.getContent();
+        List<PaymentResponse> payments = page.getContent();
         return PageableDTO.builder().numberOfElements(page.getNumberOfElements())
                 .totalElements(page.getTotalElements())
                 .totalPages(page.getTotalPages()).paymentsList(payments).build();
     }
 
-    public PaymentDTO findById(Long id) {
+    public PaymentResponse findById(Long id) {
         Payment payment = repository.findById(id)
                 .orElseThrow(() -> new IdNotFoundException(id));
 
-        return modelMapper.map(payment, PaymentDTO.class);
+        return modelMapper.map(payment, PaymentResponse.class);
     }
 
     @Override
-    public PaymentDTO update(PaymentDTO paymentDTO, Long id) {
+    public PaymentResponse update(PaymentDTO paymentDTO, Long id) {
 
         Payment payment = repository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
 
-        if(LocalDateTime.now().isAfter(paymentDTO.getPaymentDateTime()))
-            throw new DataIntegrityValidationException("Invalid date! retroative date is not allowed");
 
         payment.setCustomerName(paymentDTO.getCustomerName());
         payment.setValue(paymentDTO.getValue());
-        payment.setPaymentDateTime(paymentDTO.getPaymentDateTime());
         payment.setPaymentType(paymentDTO.getPaymentType());
 
         repository.save(payment);
-        return modelMapper.map(payment, PaymentDTO.class);
+        return modelMapper.map(payment, PaymentResponse.class);
     }
 
     @Override
@@ -66,24 +64,30 @@ public class PaymentService implements PaymentUseCase {
         repository.deleteById(id);
     }
     @Override
-    public PaymentDTO createPayment(PaymentDTO dto) {
-        if(LocalDateTime.now().isAfter(dto.getPaymentDateTime()))
-            throw new DataIntegrityValidationException("Invalid date! retroative date is not allowed");
+    public PaymentResponse createPayment(PaymentDTO dto) {
+
 
         Payment payment = modelMapper.map(dto, Payment.class);
         payment.setStatus(Status.PAYMENT_CREATED);
         repository.save(payment);
 
-        return modelMapper.map(payment, PaymentDTO.class);
+        return modelMapper.map(payment, PaymentResponse.class);
     }
 
     public void confirmPayment(Long id) {
+        checkIfIdExists(id);
         Optional<Payment> payment = repository.findById(id);
 
-        if(!payment.isPresent()){
-            throw new IdNotFoundException(id);
-        }
         payment.get().setStatus(Status.PAYMENT_CONFIRMED);
+        repository.save(payment.get());
+    }
+    @Override
+    public void cancelPayment(Long id){
+        checkIfIdExists(id);
+        Optional<Payment> payment = repository.findById(id);
+
+
+        payment.get().setStatus(Status.PAYMENT_CANCELED);
         repository.save(payment.get());
     }
 
