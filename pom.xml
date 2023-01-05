@@ -84,7 +84,7 @@
 						<exclude>**/Dev.*</exclude>
 						<exclude>**/config/**</exclude>
 						<exclude>**/domain/**</exclude>
-						<exclude>**/MsSchedulingApplication.*</exclude>
+						<exclude>**/MsPaymentApplication.*</exclude>
 						<exclude>**/ErrorResponse.*</exclude>
 					</excludes>
 				</configuration>

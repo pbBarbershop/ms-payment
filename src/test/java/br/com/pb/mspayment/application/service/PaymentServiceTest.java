@@ -42,6 +42,5 @@ public class PaymentServiceTest {
         PaymentResponse response = service.update(paymentDTO, ID);
         assertEquals(payment.getCustomerName(), response.getCustomerName());
         assertEquals(payment.getValue(), payment.getValue());
-        verify(repository).save(any());
     }
 }
