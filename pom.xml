@@ -86,6 +86,7 @@
 						<exclude>**/domain/**</exclude>
 						<exclude>**/MsPaymentApplication.*</exclude>
 						<exclude>**/ErrorResponse.*</exclude>
+						<exclude>**/GenericException.*</exclude>
 					</excludes>
 				</configuration>
 				<executions>
