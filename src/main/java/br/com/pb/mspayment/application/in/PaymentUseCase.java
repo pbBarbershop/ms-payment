@@ -7,24 +7,18 @@ import br.com.pb.mspayment.domain.model.Status;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-@Service
-
 public interface PaymentUseCase {
-
     PageableDTO findAll(Status status, Pageable pageable);
 
     PaymentResponse findById(Long id);
 
     PaymentResponse update(PaymentDTO paymentDTO, Long id);
 
-    void deletePayment(Long id);
+    void delete(Long id);
 
-    PaymentResponse createPayment(PaymentDTO dto);
+    PaymentResponse create(PaymentDTO dto);
 
     void confirmPayment(Long id);
 
-     void cancelPayment(Long id);
+    void cancelPayment(Long id);
 }
-
-
-

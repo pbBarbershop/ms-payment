@@ -6,10 +6,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
-import lombok.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import lombok.*;
 
 @Getter
 @Setter
@@ -17,13 +16,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentDTO {
-    @NotNull(message = "invalid field")
-    @Positive(message = "value must be positive")
-    private BigDecimal value;
-    @NotBlank(message = "invalid field")
-    @Pattern(regexp = "^([a-zA-ZãÃéÉíÍóÓêÊôÔáÁ\\s])+$", message = "field must contain letters only")
-    private String customerName;
-    @NotBlank(message = "invalid field")
-    private String paymentType;
 
+    @NotNull(message = "Campo inválido")
+    @Positive(message = "Valor deve ser positivo")
+    private BigDecimal value;
+
+    @NotBlank(message = "Campo inválido")
+    @Pattern(regexp = "^([a-zA-ZãÃéÉíÍóÓêÊôÔáÁ\\s])+$", message = "Campo deve conter apenas letras")
+    private String customerName;
+
+    @NotBlank(message = "Campo inválido")
+    private String paymentType;
 }
