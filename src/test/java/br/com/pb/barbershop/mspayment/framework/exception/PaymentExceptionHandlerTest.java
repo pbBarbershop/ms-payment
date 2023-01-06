@@ -1,16 +1,16 @@
 package br.com.pb.barbershop.mspayment.framework.exception;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.context.request.WebRequest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class PaymentExceptionHandlerTest {
@@ -25,11 +25,11 @@ class PaymentExceptionHandlerTest {
 
         PaymentExceptionHandler handler = new PaymentExceptionHandler();
         ResponseEntity<Object> response = handler.handleExceptionInternal(
-            ex,
-            null,
-            null,
-            HttpStatus.BAD_REQUEST,
-            request
+                ex,
+                null,
+                null,
+                HttpStatus.BAD_REQUEST,
+                request
         );
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -56,20 +56,20 @@ class PaymentExceptionHandlerTest {
 
     @Test
     public void handle() {
-        Exception ex1 = mock(Exception.class);
-        GenericException ex2 = mock(GenericException.class);
-        when(ex2.getMessageDTO()).thenReturn("mensagem teste");
-        when(ex2.getStatus()).thenReturn(HttpStatus.BAD_REQUEST);
+        Exception exception = mock(Exception.class);
+        GenericException genericException = mock(GenericException.class);
+        when(genericException.getMessageDTO()).thenReturn("mensagem teste");
+        when(genericException.getStatus()).thenReturn(HttpStatus.BAD_REQUEST);
 
         PaymentExceptionHandler handler = new PaymentExceptionHandler();
-        ResponseEntity<Object> response = handler.handle(ex1);
+        ResponseEntity<Object> response = handler.handle(exception);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertTrue(response.getBody() instanceof ErrorResponse);
         ErrorResponse errorResponse = (ErrorResponse) response.getBody();
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), errorResponse.getMessage());
 
-        response = handler.handle(ex2);
+        response = handler.handle(genericException);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertTrue(response.getBody() instanceof ErrorResponse);

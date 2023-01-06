@@ -37,8 +37,8 @@ public class PaymentController {
 
     @PutMapping("/{id}")
     public ResponseEntity<PaymentResponse> update(
-        @RequestBody @Valid PaymentDTO paymentDTO,
-        @PathVariable @NotNull Long id
+            @RequestBody @Valid PaymentDTO paymentDTO,
+            @PathVariable @NotNull Long id
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(service.update(paymentDTO, id));
     }

@@ -1,21 +1,12 @@
 package br.com.pb.barbershop.mspayment.application.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
-
 import br.com.pb.barbershop.mspayment.domain.dto.PageableDTO;
 import br.com.pb.barbershop.mspayment.domain.dto.PaymentDTO;
 import br.com.pb.barbershop.mspayment.domain.dto.PaymentResponse;
 import br.com.pb.barbershop.mspayment.domain.model.Payment;
 import br.com.pb.barbershop.mspayment.domain.model.Status;
 import br.com.pb.barbershop.mspayment.framework.adapters.out.repository.PaymentJpaRepository;
-import br.com.pb.barbershop.mspayment.framework.exception.ErrorResponse;
 import br.com.pb.barbershop.mspayment.framework.exception.GenericException;
-import java.util.Arrays;
-import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,6 +16,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.Arrays;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class PaymentServiceTest {

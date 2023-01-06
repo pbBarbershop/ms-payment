@@ -8,14 +8,15 @@ import br.com.pb.barbershop.mspayment.domain.model.Payment;
 import br.com.pb.barbershop.mspayment.domain.model.Status;
 import br.com.pb.barbershop.mspayment.framework.adapters.out.repository.PaymentJpaRepository;
 import br.com.pb.barbershop.mspayment.framework.exception.GenericException;
-import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,27 +40,27 @@ public class PaymentService implements PaymentUseCase {
 
         List<PaymentResponse> payments = page.getContent();
         return PageableDTO
-            .builder()
-            .numberOfElements(page.getNumberOfElements())
-            .totalElements(page.getTotalElements())
-            .totalPages(page.getTotalPages())
-            .paymentsList(payments)
-            .build();
+                .builder()
+                .numberOfElements(page.getNumberOfElements())
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .paymentsList(payments)
+                .build();
     }
 
     @Override
     public PaymentResponse findById(Long id) {
         Payment payment = repository
-            .findById(id)
-            .orElseThrow(() -> new GenericException(HttpStatus.BAD_REQUEST, "Id não encontrado!"));
+                .findById(id)
+                .orElseThrow(() -> new GenericException(HttpStatus.BAD_REQUEST, "Id não encontrado!"));
         return modelMapper.map(payment, PaymentResponse.class);
     }
 
     @Override
     public PaymentResponse update(PaymentDTO paymentDTO, Long id) {
         Payment payment = repository
-            .findById(id)
-            .orElseThrow(() -> new GenericException(HttpStatus.BAD_REQUEST, "Id não encontrado!"));
+                .findById(id)
+                .orElseThrow(() -> new GenericException(HttpStatus.BAD_REQUEST, "Id não encontrado!"));
 
         payment.setCustomerName(paymentDTO.getCustomerName());
         payment.setValue(paymentDTO.getValue());
