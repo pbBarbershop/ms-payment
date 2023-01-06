@@ -153,6 +153,14 @@ public class PaymentServiceTest {
     }
 
     @Test
+    void shouldTryUpdateThen_ThrowException_WhenIdNotFound() {
+        PaymentDTO paymentDTO = new PaymentDTO();
+        when(repository.findById(ID)).thenReturn(Optional.empty());
+
+        assertThrows(GenericException.class, () -> service.update(paymentDTO, ID));
+    }
+
+    @Test
     void shouldDelete_And_ReturnSuccess() {
         Payment payment = new Payment();
         when(repository.findById(ID)).thenReturn(Optional.of(payment));
@@ -162,18 +170,10 @@ public class PaymentServiceTest {
         verify(repository).deleteById(ID);
     }
 
-    @Test
-    void shouldTryUpdateThen_ThrowException_WhenIdNotFound() {
-        PaymentDTO paymentDTO = new PaymentDTO();
+    @Testt
+    void shouldTryDelete_ThenThrowException_WhenIdNotFound() {
         when(repository.findById(ID)).thenReturn(Optional.empty());
 
-        assertThrows(GenericException.class, () -> service.update(paymentDTO, ID));
-    }
-
-    @Test
-    void shouldThrowException_WhenIdNotFound() {
-        when(repository.findById(ID)).thenReturn(Optional.empty());
-
-        assertThrows(GenericException.class, () -> service.checkIfIdExists(ID));
+        assertThrows(GenericException.class, () -> service.delete(ID));
     }
 }

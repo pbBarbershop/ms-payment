@@ -94,7 +94,7 @@ public class PaymentService implements PaymentUseCase {
         repository.deleteById(id);
     }
 
-    public void checkIfIdExists(Long id) {
+    private void checkIfIdExists(Long id) {
         repository.findById(id).orElseThrow(() -> new GenericException(HttpStatus.BAD_REQUEST, "Id não encontrado!"));
     }
 }
