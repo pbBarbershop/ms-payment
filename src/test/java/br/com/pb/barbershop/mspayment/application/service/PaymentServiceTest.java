@@ -170,7 +170,7 @@ public class PaymentServiceTest {
         verify(repository).deleteById(ID);
     }
 
-    @Testt
+    @Test
     void shouldTryDelete_ThenThrowException_WhenIdNotFound() {
         when(repository.findById(ID)).thenReturn(Optional.empty());
 
