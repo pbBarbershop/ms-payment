@@ -1,0 +1,220 @@
+openapi: 3.0.1
+info:
+  title: MS Payment
+  description: Microsserviço de pagamentos da barbearia
+  version: 1.0.0
+servers:
+  - url: http://localhost:8083/api/barbershop
+paths:
+  /payment/{id}:
+    get:
+      tags:
+        - Payment
+      summary: Buscar pagamento por ID
+      operationId: findById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponse'
+    put:
+      tags:
+        - Payment
+      summary: Atualizar pagamento
+      operationId: update
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponse'
+    delete:
+      tags:
+        - Payment
+      summary: Excluir pagamento
+      operationId: delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /payment/{id}/confirm:
+    put:
+      tags:
+        - Payment
+      summary: Atualizar status do pagamento para confirmado
+      operationId: confirmPayment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /payment/{id}/cancel:
+    put:
+      tags:
+        - Payment
+      summary: Atualizar status do pagamento para cancelado
+      operationId: cancelPayment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /payment:
+    get:
+      tags:
+        - Payment
+      summary: Listar pagamentos
+      operationId: findAll
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - PAYMENT_CREATED
+              - PAYMENT_CONFIRMED
+              - PAYMENT_CANCELED
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Pageable'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageableDTO'
+    post:
+      tags:
+        - Payment
+      summary: Cadastrar pagamentos
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponse'
+components:
+  schemas:
+    PaymentDTO:
+      required:
+        - customerName
+        - paymentType
+        - value
+      type: object
+      properties:
+        value:
+          type: number
+        customerName:
+          pattern: ^([a-zA-ZãÃéÉíÍóÓêÊôÔáÁ\s])+$
+          type: string
+        paymentType:
+          type: string
+    PaymentResponse:
+      type: object
+      properties:
+        value:
+          type: number
+        customerName:
+          type: string
+        paymentType:
+          type: string
+        status:
+          type: string
+          enum:
+            - PAYMENT_CREATED
+            - PAYMENT_CONFIRMED
+            - PAYMENT_CANCELED
+    Pageable:
+      type: object
+      properties:
+        page:
+          minimum: 0
+          type: integer
+          format: int32
+        size:
+          minimum: 1
+          type: integer
+          format: int32
+        sort:
+          type: array
+          items:
+            type: string
+    PageableDTO:
+      type: object
+      properties:
+        numberOfElements:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        paymentsList:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentResponse'
